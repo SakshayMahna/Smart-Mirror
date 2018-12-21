@@ -2,29 +2,30 @@
 # requirements
 # requests, feedparser, traceback, Pillow
 
-from Tkinter import *
-import locale
-import threading
-import time
+from Tkinter import *           #GUI
+import locale                   #LocalStyles
+import threading                #Threads
+import time                 
 import requests
 import json
-import traceback
-import feedparser
+#Python stacks its compilement and sends a trace to where the error is...
+import traceback                #for identifying exceptions and stack traces
+import feedparser               #Parses feed(summarised information) in various formats like Atom, RSS, RDF
 
-from PIL import Image, ImageTk
-from contextlib import contextmanager
+from PIL import Image, ImageTk  #Python Imaging Library to manage images
+from contextlib import contextmanager   #allocating and releasing resources(like file access, threads) exactly where needed
 
 LOCALE_LOCK = threading.Lock()
 
 ui_locale = '' # e.g. 'fr_FR' fro French, '' as default
 time_format = 12 # 12 or 24
 date_format = "%b %d, %Y" # check python doc for strftime() for options
-news_country_code = 'us'
-weather_api_token = '<TOKEN>' # create account at https://darksky.net/dev/
+news_country_code = 'in'
+weather_api_token = 'fcb7e7690dcaac01dffeb07dc49dadf1' # create account at https://darksky.net/dev/
 weather_lang = 'en' # see https://darksky.net/dev/docs/forecast for full list of language parameters values
 weather_unit = 'us' # see https://darksky.net/dev/docs/forecast for full list of unit parameters values
-latitude = None # Set this if IP location lookup does not work for you (must be a string)
-longitude = None # Set this if IP location lookup does not work for you (must be a string)
+latitude = '31.37503' # Set this if IP location lookup does not work for you (must be a string)
+longitude = '75.37940' # Set this if IP location lookup does not work for you (must be a string)
 xlarge_text_size = 94
 large_text_size = 48
 medium_text_size = 28
@@ -32,6 +33,7 @@ small_text_size = 18
 
 @contextmanager
 def setlocale(name): #thread proof function to work with locale
+#thread safety means using multithread code without the unintended interaction
     with LOCALE_LOCK:
         saved = locale.setlocale(locale.LC_ALL)
         try:
